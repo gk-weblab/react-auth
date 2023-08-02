@@ -2,11 +2,9 @@ import {useRef, useState, useEffect, useLayoutEffect} from "react";
 
 import axios from "../api/axios";
 import {
-	
 	faInfoCircle,
 	faCircleCheck,
 	faCircleXmark,
-	
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
@@ -16,14 +14,11 @@ const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const Register = () => {
-	
-
 	const userRef = useRef();
 	const errRef = useRef();
 	const passRef = useRef();
 	const matchRef = useRef();
-	
-	
+
 	const [user, setUser] = useState("");
 	const [validName, setValidName] = useState(false);
 	const [userFocus, setUserFocus] = useState(false);
@@ -38,14 +33,12 @@ const Register = () => {
 
 	const [errMsg, setErrMsg] = useState("How to");
 	const [success, setSuccess] = useState({value: false, message: ""});
-	//state for block showing info about spinner and errMsg 
-	const [showInfo, setShowInfo] = useState(false)
+	//state for block showing info about spinner and errMsg
+	const [showInfo, setShowInfo] = useState(false);
 	//state for spinner
 	const [spinner, setSpinner] = useState(false);
 
-
-
-     // Focus to Username field on load
+	// Focus to Username field on load
 	useEffect(() => {
 		userRef.current.focus();
 	}, []);
@@ -69,29 +62,29 @@ const Register = () => {
 	//Hide errMsg and Spinner (when user changes any input)
 	useLayoutEffect(() => {
 		setErrMsg("");
-		setShowInfo(false)
+		setShowInfo(false);
 		setSpinner(false);
 	}, [user, pwd, matchPwd]);
 
 	//Hide and show spinner (based on errMsg and showInfo state)
-    useLayoutEffect(()=>{
-		setSpinner(!errMsg)
-	},[errMsg,showInfo])
-    
+	useLayoutEffect(() => {
+		setSpinner(!errMsg);
+	}, [errMsg, showInfo]);
+
 	//handle form submit
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		//hide errMsg and show spinner
-		setErrMsg('')
-		setShowInfo(true)
+		setErrMsg("");
+		setShowInfo(true);
 
-		//test validity 
+		//test validity
 		const v1 = USER_REGEX.test(user);
 		const v2 = PWD_REGEX.test(pwd);
 		if (!v1 || !v2) {
 			setErrMsg("Invalid Entry");
-			return;	
+			return;
 		}
 		//try request
 		try {
@@ -106,15 +99,14 @@ const Register = () => {
 			console.log(response);
 			if (response.status === 201) {
 				setSuccess({value: true, message: response.data.message});
+			} else {
+				throw new Error(response);
 			}
-			else{throw new Error(response)}
-			
 		} catch (error) {
 			console.log(error);
-            if (!error?.response) {
+			if (!error?.response) {
 				setErrMsg("No server Response");
-			}
-			else if (error.response) {
+			} else if (error.response) {
 				switch (error.response.status) {
 					case 409:
 						setErrMsg("Username Already Exists");
@@ -125,17 +117,14 @@ const Register = () => {
 					default:
 						setErrMsg(`Registration Failed: ${error.message}`);
 				}
-			}
-			else {
+			} else {
 				setErrMsg(error.message);
 			}
 			//for screen readers
-			errRef.current.click()
-			errRef.current.focus()
-			
+			errRef.current.click();
+			errRef.current.focus();
 		}
 	};
-
 
 	return (
 		<section className="register">
@@ -146,12 +135,23 @@ const Register = () => {
 					<h1 className="heading">Register</h1>
 					<form onSubmit={handleSubmit}>
 						<div>
-							<label onBlur={() => setUserFocus(false)}  className="label" htmlFor="username">
+							<label
+								onBlur={() => setUserFocus(false)}
+								className="label"
+								htmlFor="username"
+							>
 								Username:&nbsp;
 								<span className={`${validName ? "valid" : "hide"} label-icon`}>
 									<FontAwesomeIcon icon={faCircleCheck} />
 								</span>
-								<span onClick={()=>{setUser("")}} className={`${validName || !user ? "hide" : "invalid"} label-icon`}>
+								<span
+									onClick={() => {
+										setUser("");
+									}}
+									className={`${
+										validName || !user ? "hide" : "invalid"
+									} label-icon`}
+								>
 									<FontAwesomeIcon icon={faCircleXmark} />
 								</span>
 							</label>
@@ -166,7 +166,6 @@ const Register = () => {
 								aria-invalid={validName ? "false" : "true"}
 								aria-describedby="uidnote"
 								onFocus={() => setUserFocus(true)}
-								
 							/>
 							<p
 								id="uidnote"
@@ -190,7 +189,14 @@ const Register = () => {
 								<span className={`${validPwd ? "valid" : "hide"} label-icon`}>
 									<FontAwesomeIcon icon={faCircleCheck} />
 								</span>
-								<span onClick={()=>{setPwd("")}} className={`${validPwd || !pwd ? "hide" : "invalid"} label-icon`}>
+								<span
+									onClick={() => {
+										setPwd("");
+									}}
+									className={`${
+										validPwd || !pwd ? "hide" : "invalid"
+									} label-icon`}
+								>
 									<FontAwesomeIcon icon={faCircleXmark} />
 								</span>
 							</label>
@@ -204,7 +210,6 @@ const Register = () => {
 								aria-invalid={validName ? "false" : "true"}
 								aria-describedby="pwdnote"
 								onFocus={() => setPwdFocus(true)}
-								
 							/>
 							<p
 								id="pwdnote"
@@ -224,10 +229,21 @@ const Register = () => {
 						<div>
 							<label onBlur={() => setMatchFocus(false)} htmlFor="match">
 								Confirm Password:&nbsp;
-								<span className={`${validMatch && pwd ? "valid" : "hide"} label-icon`}>
+								<span
+									className={`${
+										validMatch && pwd ? "valid" : "hide"
+									} label-icon`}
+								>
 									<FontAwesomeIcon icon={faCircleCheck} />
 								</span>
-								<span onClick={()=>{setPwdMatch("")}} className={`${validMatch || !matchPwd ? "hide" : "invalid"} label-icon`}>
+								<span
+									onClick={() => {
+										setPwdMatch("");
+									}}
+									className={`${
+										validMatch || !matchPwd ? "hide" : "invalid"
+									} label-icon`}
+								>
 									<FontAwesomeIcon icon={faCircleXmark} />
 								</span>
 							</label>
@@ -241,7 +257,6 @@ const Register = () => {
 								aria-invalid={validName ? "false" : "true"}
 								aria-describedby="matchnote"
 								onFocus={() => setMatchFocus(true)}
-								
 							/>
 							<p
 								id="matchnote"
@@ -265,24 +280,20 @@ const Register = () => {
 							>
 								Sign Up
 							</button>
-							<div className={showInfo ? "info show-info":"info hidden"}>
-							
-								
+							<div className={showInfo ? "info show-info" : "info hidden"}>
 								<span className={spinner ? "spin" : "hidden"}>
-								<div className="spinner-3"></div>
+									<div className="spinner-3"></div>
 								</span>
-								<p
-									ref={errRef}
-									className={errMsg ? "errMsg":"registering"}
-									
-								>
-									{!errMsg ? "Registering User...": errMsg}
+								<p ref={errRef} className={errMsg ? "errMsg" : "registering"}>
+									{!errMsg ? "Registering User..." : errMsg}
 								</p>
 							</div>
 						</div>
 						<div className="already">
 							<p aria-flowto="signin">Already Registered!</p>
-							<button id="signin" className="signin action">Sign In</button>
+							<button id="signin" className="signin action">
+								Sign In
+							</button>
 						</div>
 						{/* <button onClick={resetFields} className="action" type="button">Reset</button> */}
 					</form>
