@@ -8,6 +8,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+ 
+  
 }
 
 .App {
@@ -32,7 +34,7 @@ h1 {
 }
 
 /* Section Styling */
-.register {
+.form-section {
   border-radius: 10px;
   padding: 2em;
   position: relative;
@@ -43,7 +45,7 @@ h1 {
 
 }
 /* Form Layout */
-.register form, .success {
+.form-section form, .success {
   text-align:left;
   display: flex;
   flex-direction: column;
@@ -51,16 +53,16 @@ h1 {
   
   font-size: 1.2rem;
 }
-.register form > div {
+.form-section form > div {
   width: 20rem;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   flex-direction: column;
   align-items: stretch;
 
 }
 
-.register form div.already {
+.form-section form div.already, .form-section form div.forget {
   flex-direction: row;
   justify-content: space-between;
   align-content: center;
@@ -68,7 +70,7 @@ h1 {
   color: #000000a0;
   font-weight: 600;
 }
-.register form div.actions {
+.form-section form div.actions {
    margin-top: 1rem;
 }
 
@@ -103,16 +105,20 @@ input.invalid:focus {
 
 /* Action Buttons Styling */
 .action {
+  text-align: center;
   border: none;
   color: #ffffff;
   border-radius: 1000px;
   font-size: 1.2rem;
-  padding: 10px;
+  padding: 10px 20px;
   font-weight: 600;
   background: linear-gradient(90deg, #5e42de 0%,#5e42de 50%, #A8C0FF 75%,#5e42de 100%);
   background-size: 300%;
   background-position: 150% 150%;
-  transition: background-position 600ms ease, filter 300ms ease;
+  transition: background-position 600ms ease, filter 300ms ease,scale 300ms ease;
+}
+.action:active {
+  transform: scale(.95);
 }
 .action:hover{
   background-position: 0 0;
@@ -128,7 +134,12 @@ input.invalid:focus {
   align-self: start;
   width: 40%;
 }
-
+.action a {
+  color: inherit;
+}
+.action a:hover {
+  color: currentColor;
+}
 
 /* Showing and hiding Instructions */
 .instruction {
@@ -193,7 +204,7 @@ label {
   flex-direction: row;
   justify-content: space-between;
   padding-top: 0.5rem;
-  padding-right: 1rem;
+  padding-inline: 1rem;
   font-size: 1rem;
   align-items: center;
   font-weight: 600;
@@ -231,7 +242,7 @@ label {
   color: rgb(249, 54, 54);
  
 }
-.registering {
+.form-sectioning {
   color: #242424c1;
 }
 
@@ -250,3 +261,30 @@ label {
  h3 {
   color: rgba(0, 0, 0, 0.342);
  }
+
+ .form-section form > div.additional-actions {
+  margin-top: -1.5rem;
+     display: flex;
+     gap: 1rem;
+     justify-content: space-between;
+     /* border: 1px solid red; */
+ } 
+ .additional-actions div {
+  display: flex;
+  flex-direction: column;
+  color: #0000008c;
+  padding: 0;
+
+ }
+ a {
+  text-decoration: none;
+  color: #0000008c;
+  transition: color 300ms ease;
+ 
+ }
+ a:hover {
+  color: #5e42de;
+ }
+.button-prompt {
+  margin-bottom: .5rem;
+}

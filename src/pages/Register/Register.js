@@ -1,6 +1,6 @@
 import {useRef, useState, useEffect, useLayoutEffect} from "react";
-
-import axios from "../api/axios";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 import {
 	faInfoCircle,
 	faCircleCheck,
@@ -13,7 +13,8 @@ import {Success} from "./Success";
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-const Register = () => {
+export const Register = () => {
+	const navigate = useNavigate()
 	const userRef = useRef();
 	const errRef = useRef();
 	const passRef = useRef();
@@ -120,14 +121,15 @@ const Register = () => {
 			} else {
 				setErrMsg(error.message);
 			}
-			//for screen readers
-			errRef.current.click();
-			errRef.current.focus();
+			
 		}
+		//for screen readers
+		errRef.current.click();
+		errRef.current.focus();
 	};
 
 	return (
-		<section className="register">
+		<section className="form-section">
 			{success.value ? (
 				<Success msg={success.message} />
 			) : (
@@ -291,9 +293,7 @@ const Register = () => {
 						</div>
 						<div className="already">
 							<p aria-flowto="signin">Already Registered!</p>
-							<button id="signin" className="signin action">
-								Sign In
-							</button>
+							<button className="action" onClick={()=>{navigate("/signin")}} type="button">Sign In</button>
 						</div>
 						{/* <button onClick={resetFields} className="action" type="button">Reset</button> */}
 					</form>
@@ -303,4 +303,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+

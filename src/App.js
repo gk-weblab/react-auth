@@ -1,7 +1,7 @@
 
 import { Routes,Route } from 'react-router';
 
-import Register from './components/Register';
+import {Register, Signin, AfterSignin} from "./pages";
 import './App.css';
 
 function App() {
@@ -9,7 +9,9 @@ function App() {
     <main className="App">
       <Routes>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/" element={<Register/>}/>
+        <Route path="/signin" element={<Signin/>}/>
+        <Route path="/home" element={<AfterSignin/>}/>
+        
       </Routes>
     </main>
   );
